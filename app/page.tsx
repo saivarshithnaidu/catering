@@ -76,11 +76,11 @@ export default function Home() {
           
           <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/5 gap-4">
             <p className="text-luxury-gold/50 text-[10px] uppercase tracking-widest">
-              © 2026 Royale Feast Catering. catering.growxlabs.tech
+              © 2026 Royale Feast Catering.
             </p>
             <div className="flex gap-4">
-              <a href="#" className="text-warm-ivory/30 text-[10px] uppercase tracking-widest hover:text-warm-ivory transition-colors">Privacy Policy</a>
-              <a href="#" className="text-warm-ivory/30 text-[10px] uppercase tracking-widest hover:text-warm-ivory transition-colors">Terms of Service</a>
+              <a href="#" className="text-warm-ivory/30 text-[10px] uppercase tracking-widest hover:text-warm-ivory transition-colors">Privacy</a>
+              <a href="#" className="text-warm-ivory/30 text-[10px] uppercase tracking-widest hover:text-warm-ivory transition-colors">Terms</a>
             </div>
           </div>
         </div>

@@ -13,7 +13,9 @@ const Hero = () => {
   const videoRef = useRef(null);
 
   useEffect(() => {
-    if (containerRef.current) {
+    // Only run GSAP on desktop to prevent mobile glitches and performance issues
+    const isMobile = window.innerWidth < 768;
+    if (containerRef.current && !isMobile) {
       gsap.to(videoRef.current, {
         scrollTrigger: {
           trigger: containerRef.current,
@@ -30,15 +32,15 @@ const Hero = () => {
   return (
     <section
       ref={containerRef}
-      className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-primary-black"
+      className="relative h-[100svh] w-full flex items-center justify-center overflow-hidden bg-primary-black"
     >
       {/* Background Overlay */}
       <div className="absolute inset-0 z-10 bg-gradient-to-b from-primary-black/60 via-transparent to-primary-black" />
       
-      {/* Visual Background (Placeholder) */}
+      {/* Visual Background */}
       <div 
         ref={videoRef}
-        className="absolute inset-0 z-0 opacity-60 scale-110"
+        className="absolute inset-0 z-0 opacity-60 scale-105 md:scale-110"
         style={{
           backgroundImage: "url('/images/hero_catering_bg.png')",
           backgroundSize: "cover",
@@ -49,11 +51,11 @@ const Hero = () => {
       </div>
 
       {/* Content */}
-      <div className="container mx-auto px-6 relative z-20 text-center">
+      <div className="container mx-auto px-6 relative z-20 text-center max-w-full">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
           className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-luxury-gold/30 bg-luxury-gold/5 backdrop-blur-sm mb-8"
         >
           <Sparkles className="text-luxury-gold" size={14} />
@@ -63,44 +65,44 @@ const Hero = () => {
         </motion.div>
 
         <motion.h1
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 20 }} // Reduced y offset for mobile stability
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
-          className="text-5xl md:text-8xl font-serif text-warm-ivory mb-6 leading-tight"
+          transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          className="text-4xl md:text-8xl font-serif text-warm-ivory mb-6 leading-[1.1] md:leading-tight"
         >
-          Luxury Catering <br />
+          Luxury Catering <br className="hidden md:block" />
           <span className="gold-gradient italic">Meets Smart AI.</span>
         </motion.h1>
 
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.4 }}
-          className="text-lg md:text-xl text-warm-ivory/70 max-w-2xl mx-auto mb-12 font-light leading-relaxed"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="text-base md:text-xl text-warm-ivory/70 max-w-2xl mx-auto mb-10 md:12 font-light leading-relaxed px-4"
         >
           Plan weddings, corporate galas, and luxury celebrations with our 
           AI-powered menu systems and cinematic hospitality experiences.
         </motion.p>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.6 }}
-          className="flex flex-col md:flex-row items-center justify-center gap-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 px-6"
         >
-          <button className="group relative px-10 py-4 bg-luxury-gold text-primary-black font-bold uppercase tracking-widest text-sm rounded-none overflow-hidden transition-all hover:bg-white">
+          <button className="group relative w-full md:w-auto px-10 py-4 bg-luxury-gold text-primary-black font-bold uppercase tracking-widest text-sm rounded-none overflow-hidden transition-all hover:bg-white">
             <span className="relative z-10">Plan Your Event</span>
             <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
           </button>
           
-          <button className="group px-10 py-4 border border-warm-ivory/20 text-warm-ivory font-bold uppercase tracking-widest text-sm backdrop-blur-sm transition-all hover:border-luxury-gold hover:text-luxury-gold flex items-center gap-2">
+          <button className="group w-full md:w-auto px-10 py-4 border border-warm-ivory/20 text-warm-ivory font-bold uppercase tracking-widest text-sm backdrop-blur-sm transition-all hover:border-luxury-gold hover:text-luxury-gold flex items-center justify-center gap-2">
             <LayoutGrid size={18} />
             Explore Packages
           </button>
         </motion.div>
       </div>
 
-      {/* Floating Booking Widget (Visual Only for now) */}
+      {/* Floating Booking Widget - Hidden on mobile */}
       <motion.div
         initial={{ opacity: 0, x: 50 }}
         animate={{ opacity: 1, x: 0 }}

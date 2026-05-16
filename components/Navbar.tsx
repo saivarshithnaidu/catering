@@ -26,22 +26,22 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${
         isScrolled
-          ? "bg-primary-black/80 backdrop-blur-md py-4 shadow-2xl"
-          : "bg-transparent py-6"
+          ? "bg-primary-black/90 backdrop-blur-lg py-3 shadow-2xl border-b border-white/5"
+          : mobileMenuOpen ? "bg-primary-black py-4" : "bg-transparent py-6"
       }`}
     >
       <div className="container mx-auto px-6 flex justify-between items-center">
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="flex flex-col"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="flex flex-col relative z-[110]"
         >
-          <span className="text-2xl md:text-3xl font-serif font-bold tracking-widest text-luxury-gold uppercase">
+          <span className="text-xl md:text-3xl font-serif font-bold tracking-widest text-luxury-gold uppercase leading-tight">
             Royale Feast
           </span>
-          <span className="text-[10px] tracking-[0.3em] text-warm-ivory/60 uppercase -mt-1">
+          <span className="text-[8px] md:text-[10px] tracking-[0.3em] text-warm-ivory/60 uppercase -mt-0.5">
             Catering Excellence
           </span>
         </motion.div>
@@ -73,40 +73,50 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Toggle */}
-        <div className="md:hidden flex items-center gap-4">
+        <div className="md:hidden flex items-center gap-4 relative z-[110]">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="text-luxury-gold"
+            className="text-luxury-gold p-2 -mr-2"
+            aria-label="Toggle Menu"
           >
-            {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu - Improved for stability */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-primary-black border-t border-luxury-gold/10 overflow-hidden"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="absolute top-full left-0 right-0 md:hidden bg-primary-black border-t border-white/5 shadow-2xl overflow-hidden"
           >
-            <div className="flex flex-col p-6 space-y-4">
-              {navLinks.map((link) => (
-                <a
+            <div className="flex flex-col p-8 space-y-6 bg-primary-black/95 backdrop-blur-xl">
+              {navLinks.map((link, idx) => (
+                <motion.a
                   key={link.name}
                   href={link.href}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: idx * 0.05 }}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-lg font-serif text-warm-ivory hover:text-luxury-gold transition-colors"
+                  className="text-2xl font-serif text-warm-ivory hover:text-luxury-gold transition-colors"
                 >
                   {link.name}
-                </a>
+                </motion.a>
               ))}
-              <button className="bg-luxury-gold text-primary-black px-6 py-3 rounded-lg text-sm font-bold uppercase tracking-wider w-full flex justify-center items-center gap-2">
+              <motion.button 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="bg-luxury-gold text-primary-black px-6 py-4 rounded-xl text-xs font-bold uppercase tracking-widest w-full flex justify-center items-center gap-2 shadow-xl shadow-luxury-gold/20"
+              >
                 <Calendar size={16} />
-                Book Now
-              </button>
+                Plan Your Event
+              </motion.button>
             </div>
           </motion.div>
         )}
